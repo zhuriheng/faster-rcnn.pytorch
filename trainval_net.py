@@ -33,6 +33,8 @@ from model.utils.net_utils import weights_normal_init, save_net, load_net, \
 from model.faster_rcnn.vgg16 import vgg16
 from model.faster_rcnn.resnet import resnet
 
+date = time.strftime('%Y-%m-%d-%H-%M', time.localtime())
+
 def parse_args():
   """
   Parse input arguments
@@ -58,7 +60,7 @@ def parse_args():
                       default=10000, type=int)
 
   parser.add_argument('--save_dir', dest='save_dir',
-                      help='directory to save models', default="models",
+                      help='directory to save models', default="output",
                       type=str)
   parser.add_argument('--nw', dest='num_workers',
                       help='number of workers to load data',
@@ -68,7 +70,7 @@ def parse_args():
                       action='store_true')
   parser.add_argument('--ls', dest='large_scale',
                       help='whether use large imag scale',
-                      action='store_true')                      
+                      action='store_true')
   parser.add_argument('--mGPUs', dest='mGPUs',
                       help='whether use multiple GPUs',
                       action='store_true')
@@ -199,7 +201,7 @@ if __name__ == '__main__':
 
   print('{:d} roidb entries'.format(len(roidb)))
 
-  output_dir = args.save_dir + "/" + args.net + "/" + args.dataset
+  output_dir = args.save_dir + "/" + args.net + "/" + args.dataset + "/" + date
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
@@ -368,7 +370,7 @@ if __name__ == '__main__':
         loss_temp = 0
         start = time.time()
 
-    
+
     save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
     save_checkpoint({
       'session': args.session,

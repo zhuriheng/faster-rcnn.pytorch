@@ -86,6 +86,9 @@ def parse_args():
   parser.add_argument('--vis', dest='vis',
                       help='visualization mode',
                       action='store_true')
+  parser.add_argument('--input_dir', dest='input_dir',
+                      help='directory to save models',
+                      type=str)
   args = parser.parse_args()
   return args
 
@@ -141,7 +144,7 @@ if __name__ == '__main__':
 
   print('{:d} roidb entries'.format(len(roidb)))
 
-  input_dir = args.load_dir + "/" + args.net + "/" + args.dataset
+  input_dir = args.input_dir
   if not os.path.exists(input_dir):
     raise Exception('There is no input directory for loading network from ' + input_dir)
   load_name = os.path.join(input_dir,
@@ -282,7 +285,7 @@ if __name__ == '__main__':
               cls_boxes = pred_boxes[inds, :]
             else:
               cls_boxes = pred_boxes[inds][:, j * 4:(j + 1) * 4]
-            
+
             cls_dets = torch.cat((cls_boxes, cls_scores.unsqueeze(1)), 1)
             # cls_dets = torch.cat((cls_boxes, cls_scores), 1)
             cls_dets = cls_dets[order]
