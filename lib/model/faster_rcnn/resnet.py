@@ -23,6 +23,9 @@ model_urls = {
   'resnet50': 'https://s3.amazonaws.com/pytorch/models/resnet50-19c8e357.pth',
   'resnet101': 'https://s3.amazonaws.com/pytorch/models/resnet101-5d3b4d8f.pth',
   'resnet152': 'https://s3.amazonaws.com/pytorch/models/resnet152-b121ed2d.pth',
+  'resnet50-caffe': 'https://drive.google.com/open?id=0B7fNdx_jAqhtbllXbWxMVEdZclE',
+  'resnet101-caffe': 'https://drive.google.com/open?id=0B7fNdx_jAqhtaXZ4aWppWV96czg',
+  'resnet152-caffe': 'https://drive.google.com/open?id=0B7fNdx_jAqhtMXU1N0VTZkN1dHc'
 }
 
 def conv3x3(in_planes, out_planes, stride=1):
@@ -219,7 +222,8 @@ def resnet152(pretrained=False):
 
 class resnet(_fasterRCNN):
   def __init__(self, classes, num_layers=101, pretrained=False, class_agnostic=False):
-    self.model_path = 'data/pretrained_model/resnet101_caffe.pth'
+    self.num_layers = num_layers
+    self.model_path = 'data/pretrained_model/resnet{}_caffe.pth'.format(self.num_layers)
     self.dout_base_model = 1024
     self.pretrained = pretrained
     self.class_agnostic = class_agnostic
@@ -227,8 +231,15 @@ class resnet(_fasterRCNN):
     _fasterRCNN.__init__(self, classes, class_agnostic)
 
   def _init_modules(self):
-    resnet = resnet101()
-
+    if self.num_layers == 101:
+      resnet = resnet101()
+    elif self.num_layers == 50:
+      resnet = resnet50()
+    elif self.num_layers == 152:
+      resnet = resnet152()
+    else:
+      print("network is not defined")
+      pdb.set_trace()
     if self.pretrained == True:
       print("Loading pretrained weights from %s" %(self.model_path))
       state_dict = torch.load(self.model_path)
