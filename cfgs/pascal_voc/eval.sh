@@ -6,6 +6,19 @@ source activate faster-rcnn.pytorch
 
 cd ../../
 
-python test_net.py --dataset pascal_voc --net res101 --cuda \
-                   --checksession 1 --checkepoch 20 --checkpoint 2504 \
-                   --input_dir output/res101/pascal_voc/2019-04-17-17-38
+dataset="pascal_voc"
+net="vgg16"
+log_time="2019-10-14-16-34"
+checksession="2"
+checkepoch="9"
+checkpoint="2504"
+
+CUDA_VISIBLE_DEVICES=3  \
+nohup python test_net.py  --dataset ${dataset} \
+                    --net ${net} \
+                    --cuda \
+                    --checksession ${checksession} \
+                    --checkepoch ${checkepoch} \
+                    --checkpoint ${checkpoint} \
+                    --input_dir output/${dataset}/${net}/${log_time} \
+                > eval_${dataset}_${net}_v0.${checksession}.log 2>&1 &
