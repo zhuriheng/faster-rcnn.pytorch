@@ -177,7 +177,8 @@ if __name__ == '__main__':
       args.imdbval_name = "vg_150-50-50_minival"
       args.set_cfgs = ['ANCHOR_SCALES', '[4, 8, 16, 32]', 'ANCHOR_RATIOS', '[0.5,1,2]', 'MAX_NUM_GT_BOXES', '50']
 
-  args.cfg_file = "cfgs/{}_ls.yml".format(args.net) if args.large_scale else "cfgs/{}.yml".format(args.net)
+  args.cfg_file = "cfgs/{}/{}_ls.yml".format(args.dataset, args.net) if args.large_scale else "cfgs/{}/{}.yml".format(
+      args.dataset, args.net)
 
   if args.cfg_file is not None:
     cfg_from_file(args.cfg_file)
@@ -201,7 +202,7 @@ if __name__ == '__main__':
 
   print('{:d} roidb entries'.format(len(roidb)))
 
-  output_dir = args.save_dir + "/" + args.net + "/" + args.dataset + "/" + date
+  output_dir = args.save_dir + "/" + args.dataset + "/" + args.net + "/" + date
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
@@ -238,6 +239,7 @@ if __name__ == '__main__':
   # initilize the network here.
   if args.net == 'vgg16':
     fasterRCNN = vgg16(imdb.classes, pretrained=True, class_agnostic=args.class_agnostic)
+    pdb.set_trace()
   elif args.net == 'res101':
     fasterRCNN = resnet(imdb.classes, 101, pretrained=True, class_agnostic=args.class_agnostic)
   elif args.net == 'res50':

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
+set -eux
+set -o pipefail
 
-# source activate faster-rcnn.pytorch
+source activate faster-rcnn.pytorch
+
+cd ../../
 
 python test_net.py --dataset pascal_voc --net res101 --cuda \
                    --checksession 1 --checkepoch 20 --checkpoint 2504 \
