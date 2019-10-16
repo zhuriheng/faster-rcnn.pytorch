@@ -7,10 +7,10 @@ source activate faster-rcnn.pytorch
 cd ../../
 
 dataset="pascal_voc"
-net="vgg16"
-log_time="2019-10-14-16-34"
+net="res152"
+log_time="2019-10-15-17-54"
 checksession="2"
-checkepoch="9"
+checkepoch="10"
 checkpoint="2504"
 
 CUDA_VISIBLE_DEVICES=3  \

@@ -26,25 +26,10 @@ cd ../../
 #        >  pascal_voc_res101_v0.2.log 2>&1 &
 
 # train res50
-CUDA_VISIBLE_DEVICES=0  \
-nohup python ./trainval_net.py \
-                --dataset pascal_voc \
-                --net res50  \
-                --cuda \
-                --nw 4  \
-                --epochs 7 \
-                --bs 1 \
-                --lr 1e-3 \
-                --lr_decay_step 5 \
-                --s 1 \
-                --use_tfb \
-        >  pascal_voc_res50_v0.1.log 2>&1 &
-
-# train res152
-#CUDA_VISIBLE_DEVICES=2  \
+#CUDA_VISIBLE_DEVICES=0  \
 #nohup python ./trainval_net.py \
 #                --dataset pascal_voc \
-#                --net res152  \
+#                --net res50  \
 #                --cuda \
 #                --nw 4  \
 #                --epochs 7 \
@@ -53,7 +38,22 @@ nohup python ./trainval_net.py \
 #                --lr_decay_step 5 \
 #                --s 1 \
 #                --use_tfb \
-#        >  pascal_voc_res152_v0.1.log 2>&1 &
+#        >  pascal_voc_res50_v0.1.log 2>&1 &
+
+# train res152
+CUDA_VISIBLE_DEVICES=2  \
+nohup python ./trainval_net.py \
+                --dataset pascal_voc \
+                --net res152  \
+                --cuda \
+                --nw 4  \
+                --epochs 7 \
+                --bs 1 \
+                --lr 1e-3 \
+                --lr_decay_step 5 \
+                --s 1 \
+                --use_tfb \
+        >  pascal_voc_res152_v0.1.log 2>&1 &
 
 # train vgg16
 #CUDA_VISIBLE_DEVICES=3  \
