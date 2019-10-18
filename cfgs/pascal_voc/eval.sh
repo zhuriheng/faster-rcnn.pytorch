@@ -21,4 +21,4 @@ nohup python test_net.py  --dataset ${dataset} \
                     --checkepoch ${checkepoch} \
                     --checkpoint ${checkpoint} \
                     --input_dir output/${dataset}/${net}/${log_time} \
-                > eval_${dataset}_${net}_v0.${checksession}.log 2>&1 &
+                > eval_${dataset}_${net}_v0.${checksession}_${checkepoch}.log 2>&1 &
