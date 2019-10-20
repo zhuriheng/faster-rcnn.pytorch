@@ -51,6 +51,10 @@ class _fasterRCNN(nn.Module):
 
         # if it is training phase, then use ground truth bboxes for refining
         if self.training:
+            # issue: https://github.com/jwyang/faster-rcnn.pytorch/issues/226
+            rpn_loss_cls = torch.unsqueeze(rpn_loss_cls, 0)
+            rpn_loss_bbox = torch.unsqueeze(rpn_loss_bbox, 0)
+
             roi_data = self.RCNN_proposal_target(rois, gt_boxes, num_boxes)
             rois, rois_label, rois_target, rois_inside_ws, rois_outside_ws = roi_data
 
@@ -106,6 +110,10 @@ class _fasterRCNN(nn.Module):
 
             # bounding box regression L1 loss
             RCNN_loss_bbox = _smooth_l1_loss(bbox_pred, rois_target, rois_inside_ws, rois_outside_ws)
+
+            # issue: https://github.com/jwyang/faster-rcnn.pytorch/issues/226
+            RCNN_loss_cls = torch.unsqueeze(RCNN_loss_cls, 0)
+            RCNN_loss_bbox = torch.unsqueeze(RCNN_loss_bbox, 0)
 
 
         cls_prob = cls_prob.view(batch_size, rois.size(1), -1)
